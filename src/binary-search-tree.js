@@ -53,9 +53,21 @@ class BinarySearchTree {
   
 }
 
-  has(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  has(data ) {
+    function recursing(node){
+      if (node === null) {
+        return false;
+      }
+  
+      if (node.data === data) {
+        return true;
+      } else if(node.data > data) {
+        return recursing(node.left);
+      } else{
+        return recursing(node.right);
+      }
+    }
+     return recursing(this.rootNode);
   }
 
   find(data) {
@@ -76,19 +88,33 @@ class BinarySearchTree {
   }
 
   remove(data) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
   }
 
   min() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    function recursing(node){
+      if(node.left=== null){
+        return node;
+      }else {
+        return recursing(node.left);
+      }
+    }
+   if(this.rootNode === null){return null};
+    let targetNode =  recursing(this.rootNode);
+    return targetNode.data;
   }
 
   max() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+    function recursing(node){
+      if(node.right=== null){
+        return node;
+      }else {
+        return recursing(node.right);
+      }
+    }
+   if(this.rootNode === null){return null};
+    let targetNode = recursing(this.rootNode);
+    return targetNode.data;
+    }
 }
 
 module.exports = {
