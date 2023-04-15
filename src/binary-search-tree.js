@@ -88,6 +88,66 @@ class BinarySearchTree {
   }
 
   remove(data) {
+    let result = find.call(this,data);
+
+    if(this.rootNode === result.node){
+      console.log("root Node same ");
+      let rootLeft = this.rootNode.left;
+      this.rootNode = result.node.right;
+      findMinValueNode(this.rootNode).left = rootLeft;
+      console.log("root now", this.rootNode, this.root());
+
+    }
+
+    if (!result.node.right && !result.node.left) {
+      result.parent[result.side] = null;
+    } else {
+      if (!result.node.right) {
+        result.parent[result.side] = result.node.left;
+      } else {
+        result.parent[result.side] = result.node.right;
+      }
+
+      let current = result.node;
+      result.parent[result.side] = result.node.right;
+      findMinValueNode(result.node.right).left = current.left;
+    }
+
+    function find(data) {
+      
+      function recursing(node, parentNode, childSide){
+        let result = {};
+        result.parent = parentNode;
+        result.side = childSide;
+        if (node === null) {
+          result.node = null;
+          return result;
+        }
+    
+        if (node.data === data) {
+          result.node = node;
+          return result;
+        } else if(node.data > data) {
+          return recursing(node.left,node, "left");
+        } else{
+          return recursing(node.right, node, "right");
+        }
+      }
+       return recursing(this.rootNode, this.rootNode);
+    }
+    
+
+    function findMinValueNode(node){
+      function recursing(node){
+        if(node.left=== null){
+          return node;
+        }else {
+          return recursing(node.left);
+        }
+      }
+      if(node === null){return null};
+      return recursing(node);
+    }
   }
 
   min() {
@@ -117,6 +177,16 @@ class BinarySearchTree {
     }
 }
 
+let t60 = new BinarySearchTree();
+t60.add(13);
+t60.add(10);
+t60.add(7);
+t60.add(12);
+t60.add(19);
+t60.add(18);
+t60.add(27);
+t60.add(29);
+t60.add(26);
 module.exports = {
   BinarySearchTree
 };
